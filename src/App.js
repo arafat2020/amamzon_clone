@@ -13,6 +13,7 @@ import { useContext } from 'react';
 import { UserContext } from './Op-stateprovider';
 import { useEffect } from 'react';
 import { auth } from './firebase';
+import Payment from './Payment';
 // import { StateContext } from './StateProvider';
 // import reducer, { initialState } from './reducer';
 
@@ -33,6 +34,10 @@ function App() {
       <Router>
         <div className="app">
           <Switch>
+            <Route path="/payment">
+              <Header/>
+              <Payment/>
+            </Route>
             <Route path="/login">
               <LoginPage/>
             </Route>

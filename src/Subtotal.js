@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import './Subtotal.css';
 import CurrencyFormat from 'react-currency-format'
 import { UserContext } from './Op-stateprovider';
+import { useHistory } from 'react-router-dom';
 
 
 const Subtotal = () => {
@@ -10,7 +11,7 @@ const Subtotal = () => {
     function getSum(total, num) {
         return total + num;
       }
-    console.log(arr.reduce(getSum,0))
+    const history = useHistory()
 
     return (
         <div className="subtotal">
@@ -33,7 +34,7 @@ const Subtotal = () => {
                 thousandSeparator={true}
                 prefix={"$"}
             />
-            <button>Proceed to Checkout</button>
+            <button onClick={()=>history.push('/payment')}>Proceed to Checkout</button>
         </div>
     );
 };
