@@ -14,8 +14,10 @@ import { UserContext } from './Op-stateprovider';
 import { useEffect } from 'react';
 import { auth } from './firebase';
 import Payment from './Payment';
-// import { StateContext } from './StateProvider';
-// import reducer, { initialState } from './reducer';
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
+
+const promise = loadStripe('pk_test_51I55oyBQXbsrrJsgYN8KZzUYpl0FLjrdH0ryKRMWTbS8GiPPRsbwHUR6RzkJMBSDTu5JTdMnsVpTFdLWS46qZFY700JhuLPkq6')
 
 function App() {
   const user = useContext(UserContext)
@@ -36,7 +38,9 @@ function App() {
           <Switch>
             <Route path="/payment">
               <Header/>
-              <Payment/>
+              <Elements stripe={promise}>
+                <Payment/>
+              </Elements>
             </Route>
             <Route path="/login">
               <LoginPage/>
