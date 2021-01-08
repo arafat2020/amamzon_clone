@@ -6,6 +6,7 @@ import './Payment.css'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import CurrencyFormat from 'react-currency-format';
 import axios from './axios';
+import {db} from './firebase'
 
 const Payment = () => {
     const user = useContext(UserContext);
@@ -36,15 +37,22 @@ const Payment = () => {
         getClintId()
     },[totalPrice])
 
+    // console.log(user)
     console.log(cliendid)
     const handlSubmit = async (e) => {
         e.preventDefault();
         setProssesing(true)
-        const payload = async()=> await stripe.confirmCardPayment(cliendid, {
+         await stripe.confirmCardPayment(cliendid, {
             payment_method: {
                 card: eliment.getElement(CardElement)
             }
-        }).then(({ paymentIntent }) => {
+        }).then((paymentIntent) => {
+            db.collection('users').doc(user.name.uid).collection('orders').doc(paymentIntent.id).set({
+                basket: user.count.basket,
+                amount: paymentIntent.paymentIntent.amount,
+                created:paymentIntent.paymentIntent.created
+            })
+            // console.log(paymentIntent.paymentIntent.amount)
             setSuccess(true);
             setError(null);
             setProssesing(false);
@@ -52,8 +60,9 @@ const Payment = () => {
                 type:'EMPYT_BASKET'
             })
             history.replace('/order')
-        })
-        payload()
+            console.log(paymentIntent)
+        }).catch((error)=>console.warn(error))
+        
     }
     const handleChange = e => {
         setDisable(e.empty);
