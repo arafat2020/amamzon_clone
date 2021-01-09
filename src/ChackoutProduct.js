@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import './ChackoutProduct.css'
 import { UserContext } from './Op-stateprovider';
 
-const ChackoutProduct = ({ id, title, priching, rating, image }) => {
+const ChackoutProduct = ({ id, title, priching, rating, image,btnHidden }) => {
     const user = useContext(UserContext)
     const removeFromBasket = () => {
         user.reCount({
@@ -30,7 +30,7 @@ const ChackoutProduct = ({ id, title, priching, rating, image }) => {
                        return <p>⭐</p>
                    })}
                 </div>
-                <button onClick={removeFromBasket} >Remove from Basket</button>
+                <button className={`${btnHidden&& 'btn_none'}`} onClick={removeFromBasket} >Remove from Basket</button>
             </div>
         </div>
     );
